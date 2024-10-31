@@ -99,6 +99,7 @@ export class TextInputEl {
       inputElement.onfocus = () => Object.assign(this.elementRef.style, this._config.styles?.focus);
       inputElement.onblur = this.onBlur.bind(this, this._config.styles.focus, this._config.styles?.container);
     }
+    inputElement.addEventListener('focusout', this.onFocusOut.bind(this));
     inputElement.addEventListener('keydown', this.onKeydown.bind(this));
     inputElement.addEventListener('input', this.onInput.bind(this));
     inputElement.addEventListener('paste', PasteUtils.sanitizePastedTextContent);
@@ -107,6 +108,13 @@ export class TextInputEl {
   private onBlur(focusStyle: CustomStyle, containerStyle?: CustomStyle) {
     StyleUtils.unsetStyle(this.elementRef, focusStyle);
     if (containerStyle) Object.assign(this.elementRef.style, containerStyle);
+  }
+
+  private onFocusOut() {
+    if (this.isTextInputEmpty()) {
+      const lastChild = this.inputElementRef.lastChild;
+      if (lastChild && lastChild.nodeName === 'BR') this.inputElementRef.removeChild(lastChild);
+    }
   }
 
   private onKeydown(event: KeyboardEvent) {

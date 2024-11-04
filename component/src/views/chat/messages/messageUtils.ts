@@ -10,6 +10,7 @@ import {Name} from './name';
 export class MessageUtils {
   public static readonly AI_ROLE = 'ai';
   public static readonly USER_ROLE = 'user';
+  public static readonly FEEDBACK_ROLE = 'feedback'; // chat.clerk.io feedback role
   private static readonly EMPTY_MESSAGE_CLASS = 'empty-message';
 
   public static getLastElementsByClass(messagesElements: MessageElements[], classes: string[], avoidedClasses?: string[]) {

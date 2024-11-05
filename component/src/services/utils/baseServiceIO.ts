@@ -100,9 +100,11 @@ export class BaseServiceIO implements ServiceIO {
   }
 
   private async callAPIWithText(messages: Messages, pMessages: MessageContentI[]) {
+    console.log(pMessages);
+
     const body = {messages: pMessages, ...this.rawBody};
 
-    console.log(body)
+    console.log(body); // This one is empty on safari.
 
     let tempHeaderSet = false; // if the user has not set a header - we need to temporarily set it
     if (!this.connectSettings.headers?.['Content-Type']) {

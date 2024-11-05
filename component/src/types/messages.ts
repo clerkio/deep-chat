@@ -47,4 +47,4 @@ export type OnMessage = (body: {message: MessageContent; isHistory: boolean}) =>
 
 export type IntroMessage = InterfacesUnion<{text: string} | {html: string}>;
 
-export type UserContent = {text?: string; files?: File[] | FileList};
+export type UserContent = {text?: string; role?: string; files?: File[] | FileList};

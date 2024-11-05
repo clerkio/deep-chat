@@ -126,6 +126,7 @@ export class BaseServiceIO implements ServiceIO {
   }
 
   async callServiceAPI(messages: Messages, pMessages: MessageContentI[], files?: File[]) {
+    console.log("callServiceAPI pmessages: " + pMessages);
     if (files) {
       this.callApiWithFiles(messages, pMessages, files);
     } else {
@@ -140,6 +141,7 @@ export class BaseServiceIO implements ServiceIO {
       messages.messages, this.maxMessages, this.totalMessagesMaxCharLength);
     console.log(processedMessages)
     if (this.connectSettings.websocket) {
+      console.log("websocket");
       const body = {messages: processedMessages, ...this.rawBody};
       Websocket.sendWebsocket(this, body, messages, false);
     } else {

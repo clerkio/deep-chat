@@ -99,7 +99,7 @@ export class BaseServiceIO implements ServiceIO {
     return HTTPRequest.request(this, body, messages, stringifyBody);
   }
 
-  async callAPIWithText(messages: Messages, pMessages: MessageContentI[]) {
+  private callAPIWithText(messages: Messages, pMessages: MessageContentI[]) {
     console.log(pMessages);
 
     const body = {messages: pMessages, ...this.rawBody};
@@ -112,8 +112,9 @@ export class BaseServiceIO implements ServiceIO {
       this.connectSettings.headers['Content-Type'] ??= 'application/json';
       tempHeaderSet = true;
     }
-    await this.request(body, messages);
-    if (tempHeaderSet) delete this.connectSettings.headers?.['Content-Type'];
+    this.request(body, messages).then(() => {
+      if (tempHeaderSet) delete this.connectSettings.headers?.['Content-Type'];
+    })
   }
 
   private async callApiWithFiles(messages: Messages, pMessages: MessageContentI[], files: File[]) {
@@ -127,7 +128,7 @@ export class BaseServiceIO implements ServiceIO {
 
   async callServiceAPI(messages: Messages, pMessages: MessageContentI[], files?: File[]) {
     console.log('callServiceAPI pmessages: ', pMessages);
-    const pMessagesCopy = JSON.parse(JSON.stringify(pMessages));
+    const pMessagesCopy = JSON.parse(JSON.stringify(pMessages))
     console.log('COPY callServiceAPI pmessages: ', pMessagesCopy);
     if (files) {
       await this.callApiWithFiles(messages, pMessagesCopy, files);

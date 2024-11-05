@@ -19,7 +19,6 @@ export class MessageLimitUtils {
   }
 
   private static getMaxMessages(messages: MessageContentI[], maxMessages: number) {
-    console.log(messages.slice(Math.max(messages.length - maxMessages, 0)));
     return messages.slice(Math.max(messages.length - maxMessages, 0));
   }
 
@@ -35,7 +34,6 @@ export class MessageLimitUtils {
     }
     messages = JSON.parse(JSON.stringify(messages));
     if (totalMessagesMaxCharLength === undefined) return messages;
-    console.log(MessageLimitUtils.getCharacterLimitMessages(messages, totalMessagesMaxCharLength))
     return MessageLimitUtils.getCharacterLimitMessages(messages, totalMessagesMaxCharLength);
   }
 }

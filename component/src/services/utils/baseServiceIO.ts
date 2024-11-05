@@ -99,22 +99,16 @@ export class BaseServiceIO implements ServiceIO {
     return HTTPRequest.request(this, body, messages, stringifyBody);
   }
 
-  private callAPIWithText(messages: Messages, pMessages: MessageContentI[]) {
-    console.log(pMessages);
-
+  private async callAPIWithText(messages: Messages, pMessages: MessageContentI[]) {
     const body = {messages: pMessages, ...this.rawBody};
-
-    console.log(body); // This one is empty on safari.
-
     let tempHeaderSet = false; // if the user has not set a header - we need to temporarily set it
     if (!this.connectSettings.headers?.['Content-Type']) {
       this.connectSettings.headers ??= {};
       this.connectSettings.headers['Content-Type'] ??= 'application/json';
       tempHeaderSet = true;
     }
-    this.request(body, messages).then(() => {
-      if (tempHeaderSet) delete this.connectSettings.headers?.['Content-Type'];
-    });
+    await this.request(body, messages);
+    if (tempHeaderSet) delete this.connectSettings.headers?.['Content-Type'];
   }
 
   private async callApiWithFiles(messages: Messages, pMessages: MessageContentI[], files: File[]) {
@@ -127,13 +121,10 @@ export class BaseServiceIO implements ServiceIO {
   }
 
   async callServiceAPI(messages: Messages, pMessages: MessageContentI[], files?: File[]) {
-    console.log('callServiceAPI pmessages: ', pMessages);
-    const pMessagesCopy = JSON.parse(JSON.stringify(pMessages));
-    console.log('COPY callServiceAPI pmessages: ', pMessagesCopy);
     if (files) {
-      await this.callApiWithFiles(messages, pMessagesCopy, files);
+      this.callApiWithFiles(messages, pMessages, files);
     } else {
-      await this.callAPIWithText(messages, pMessagesCopy);
+      this.callAPIWithText(messages, pMessages);
     }
   }
 
@@ -142,9 +133,7 @@ export class BaseServiceIO implements ServiceIO {
     if (!this.connectSettings) throw new Error('Request settings have not been set up');
     const processedMessages = MessageLimitUtils.processMessages(
       messages.messages, this.maxMessages, this.totalMessagesMaxCharLength);
-    console.log(processedMessages)
     if (this.connectSettings.websocket) {
-      console.log("websocket");
       const body = {messages: processedMessages, ...this.rawBody};
       Websocket.sendWebsocket(this, body, messages, false);
     } else {

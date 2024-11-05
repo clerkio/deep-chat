@@ -130,9 +130,9 @@ export class BaseServiceIO implements ServiceIO {
     const pMessagesCopy = JSON.parse(JSON.stringify(pMessages));
     console.log('COPY callServiceAPI pmessages: ', pMessagesCopy);
     if (files) {
-      this.callApiWithFiles(messages, pMessagesCopy, files);
+      await this.callApiWithFiles(messages, pMessagesCopy, files);
     } else {
-      this.callAPIWithText(messages, pMessagesCopy);
+      await this.callAPIWithText(messages, pMessagesCopy);
     }
   }
 

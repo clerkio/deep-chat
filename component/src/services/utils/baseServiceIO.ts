@@ -101,6 +101,9 @@ export class BaseServiceIO implements ServiceIO {
 
   private async callAPIWithText(messages: Messages, pMessages: MessageContentI[]) {
     const body = {messages: pMessages, ...this.rawBody};
+
+    console.log(body)
+
     let tempHeaderSet = false; // if the user has not set a header - we need to temporarily set it
     if (!this.connectSettings.headers?.['Content-Type']) {
       this.connectSettings.headers ??= {};
@@ -133,6 +136,7 @@ export class BaseServiceIO implements ServiceIO {
     if (!this.connectSettings) throw new Error('Request settings have not been set up');
     const processedMessages = MessageLimitUtils.processMessages(
       messages.messages, this.maxMessages, this.totalMessagesMaxCharLength);
+    console.log(processedMessages)
     if (this.connectSettings.websocket) {
       const body = {messages: processedMessages, ...this.rawBody};
       Websocket.sendWebsocket(this, body, messages, false);

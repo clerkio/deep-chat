@@ -19,7 +19,7 @@ export class MessageLimitUtils {
   }
 
   private static getMaxMessages(messages: MessageContentI[], maxMessages: number) {
-    console.log(messages.slice(Math.max(messages.length - maxMessages, 0)))
+    console.log(messages.slice(Math.max(messages.length - maxMessages, 0)));
     return messages.slice(Math.max(messages.length - maxMessages, 0));
   }
 

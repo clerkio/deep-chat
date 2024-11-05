@@ -99,7 +99,7 @@ export class BaseServiceIO implements ServiceIO {
     return HTTPRequest.request(this, body, messages, stringifyBody);
   }
 
-  private async callAPIWithText(messages: Messages, pMessages: MessageContentI[]) {
+  async callAPIWithText(messages: Messages, pMessages: MessageContentI[]) {
     console.log(pMessages);
 
     const body = {messages: pMessages, ...this.rawBody};

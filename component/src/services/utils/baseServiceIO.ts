@@ -126,7 +126,7 @@ export class BaseServiceIO implements ServiceIO {
   }
 
   async callServiceAPI(messages: Messages, pMessages: MessageContentI[], files?: File[]) {
-    console.log("callServiceAPI pmessages: " + pMessages);
+    console.log('callServiceAPI pmessages: ' + pMessages);
     if (files) {
       this.callApiWithFiles(messages, pMessages, files);
     } else {

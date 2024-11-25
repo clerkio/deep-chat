@@ -25,6 +25,7 @@ export class ButtonContainers {
     if (position === 'outside-left') return 0;
     if (position === 'inside-left') return 1;
     if (position === 'inside-right') return 2;
+    if (position === 'clear') return 2;
     return 3;
   }
 

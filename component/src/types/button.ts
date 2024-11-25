@@ -11,7 +11,7 @@ export interface ButtonStyles {
   text?: ButtonInnerStyles;
 }
 
-export type ButtonPosition = 'inside-left' | 'inside-right' | 'outside-left' | 'outside-right' | 'dropup-menu';
+export type ButtonPosition = 'inside-left' | 'inside-right' | 'outside-left' | 'outside-right' | 'dropup-menu' | 'clear';
 
 export interface Button {
   styles?: ButtonStyles;

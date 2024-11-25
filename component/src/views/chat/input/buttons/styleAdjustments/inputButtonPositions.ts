@@ -18,7 +18,7 @@ type Buttons = {
 export class InputButtonPositions {
   // prettier-ignore
   private static addToDropup(buttonContainers: ButtonContainersT, positions: Positions, containerElement: HTMLElement,
-      dropupStyles?: DropupStyles) {
+    dropupStyles?: DropupStyles) {
     const dropup = new Dropup(containerElement, dropupStyles);
     BUTTON_ORDER.forEach((buttonType) => {
       const index = positions['dropup-menu'].findIndex((props) => props.buttonType === buttonType);
@@ -30,12 +30,12 @@ export class InputButtonPositions {
     });
     const position = Dropup.getPosition(positions, dropupStyles);
     ButtonContainers.addButton(buttonContainers, dropup.buttonContainer, position);
-     // this is a quick workaround to get dropup recognised for InputButtonStyleAdjustments
+    // this is a quick workaround to get dropup recognised for InputButtonStyleAdjustments
     positions[position].push({} as ButtonProps);
   }
 
   private static addToSideContainer(buttonContainers: ButtonContainersT, positions: Positions) {
-    const sideContainerPositions = ['inside-left', 'inside-right', 'outside-left', 'outside-right'];
+    const sideContainerPositions = ['inside-left', 'inside-right', 'outside-left', 'outside-right', 'clear'];
     sideContainerPositions.forEach((sideContainerPosition) => {
       const position = sideContainerPosition as keyof Positions;
       positions[position].forEach((buttonProps) => {
@@ -57,6 +57,7 @@ export class InputButtonPositions {
       'inside-left': [],
       'inside-right': [],
       'outside-right': [],
+      clear: [],
     };
   }
 
@@ -77,6 +78,9 @@ export class InputButtonPositions {
     if (positions['outside-right'].length === 0) {
       if (buttonsObj.submit) {
         InputButtonPositions.setPosition(buttonsObj, 'submit', positions['outside-right']);
+      }
+      else if (buttonsObj.clear) {
+        InputButtonPositions.setPosition(buttonsObj, 'clear', positions['clear'])
       } else if (buttonsObj.microphone) {
         InputButtonPositions.setPosition(buttonsObj, 'microphone', positions['outside-right']);
       } else if (buttonsObj.camera) {
@@ -97,7 +101,7 @@ export class InputButtonPositions {
     const buttonsWithoutPositions = Object.keys(buttonsObj);
     if (buttonsWithoutPositions.length > 1 || positions['dropup-menu'].length > 0) {
       BUTTON_ORDER.forEach((buttonType) => {
-        if (buttonsObj[buttonType]) positions['dropup-menu'].push({...buttonsObj[buttonType], buttonType} as ButtonProps);
+        if (buttonsObj[buttonType]) positions['dropup-menu'].push({ ...buttonsObj[buttonType], buttonType } as ButtonProps);
       });
       // if there is one button without a position
     } else if (buttonsWithoutPositions.length === 1) {
@@ -110,7 +114,7 @@ export class InputButtonPositions {
 
   // prettier-ignore
   public static addButtons(buttonContainers: ButtonContainersT, buttons: Buttons, container: HTMLElement,
-      dropupStyles?: DropupStyles) {
+    dropupStyles?: DropupStyles) {
     const positions = InputButtonPositions.generatePositions(buttons);
     InputButtonPositions.addToSideContainer(buttonContainers, positions);
     if (positions['dropup-menu'].length > 0) {

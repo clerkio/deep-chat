@@ -48,6 +48,10 @@
   overflow: hidden; */
 }
 
+#text-input-container:focus-within {
+  border: 1px solid var(--chat-primary-color);
+}
+
 /* the motivation behind using the class is to allow the adjustments to change it */
 /* need to use width to allow the mouse to select element when there is no text and not to have horizontal overflow */
 .text-input-styling {

@@ -1,5 +1,6 @@
 #messages {
   overflow: auto;
+  scrollbar-color: #f6f6f6 transparent;
 }
 
 .outer-message-container:last-child {

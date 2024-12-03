@@ -6,11 +6,6 @@
 
 #stop-icon {
   background-color: #acacac;
-  position: absolute;
-  width: 0.95em;
-  height: 0.95em;
-  left: 0.35em;
-  bottom: 0.35em;
   border-radius: 2px;
 }
 
@@ -21,8 +16,9 @@
 }
 
 .loading-submit-button {
+  filter: var(--chat-submit-icon-filter)!important;
   position: relative;
-  left: calc(-9990px + 0.275em);
+  left: calc(0em - 9995px);
   width: 0.22em;
   height: 0.22em;
   border-radius: 5px;
@@ -33,7 +29,8 @@
     calc(9990px + 0.44em) 0 0 0 #848484,
     calc(9990px + 0.8em) 0 0 0 #848484;
   animation: loading-submit-button 1.5s infinite linear;
-  bottom: -0.75em;
+  bottom: 0px;
+  top: 5px;
 }
 
 @keyframes loading-submit-button {

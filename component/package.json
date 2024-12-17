@@ -72,6 +72,7 @@
   "dependencies": {
     "@microsoft/fetch-event-source": "^2.0.1",
     "remarkable": "^2.0.1",
+    "remarkable-external-link": "^2.2.1",
     "speech-to-element": "^0.1.66"
   }
 }

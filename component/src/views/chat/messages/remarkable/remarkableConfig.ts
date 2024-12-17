@@ -1,5 +1,6 @@
-import {Remarkable} from 'remarkable';
+import { Remarkable } from 'remarkable';
 import hljs from 'highlight.js';
+import remarkableExternalLink from 'remarkable-external-link';
 
 declare global {
   interface Window {
@@ -35,11 +36,16 @@ export class RemarkableConfig {
         typographer: true, // Enable smartypants and other sweet transforms
       });
     } else {
-      return new Remarkable({
+      const remark = new Remarkable({
         breaks: true,
         linkTarget: '',
       });
+      remark.use(remarkableExternalLink, {
+        hosts: [window.location.origin]
+      })
+      return remark
     }
+
   }
 
   public static createNew() {

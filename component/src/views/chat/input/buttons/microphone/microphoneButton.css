@@ -1,18 +1,27 @@
 #microphone-button {
-  padding-top: 0.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  background-color: #f6f6f6;
 }
 
-.outer-button-container > #microphone-button {
+.outer-button-container>#microphone-button {
   padding-bottom: 1px;
 }
 
-#microphone-icon {
+.inner-button-container:has(#microphone-button) {
   position: absolute;
+  gap: 5px;
+  right: 6px;
+  bottom: 0.85em;
+  flex-direction: row-reverse;
+}
+
+#microphone-icon {
   pointer-events: none;
-  width: 1.21em;
-  height: 1.21em;
-  left: 0.25em;
-  bottom: 0.25em;
 }
 
 .default-microphone-icon {
@@ -20,16 +29,16 @@
 }
 
 .active-microphone-icon {
-  filter: brightness(0) saturate(100%) invert(10%) sepia(97%) saturate(7495%) hue-rotate(0deg) brightness(101%)
-    contrast(107%);
+  filter: brightness(0) saturate(100%) invert(10%) sepia(97%) saturate(7495%) hue-rotate(0deg) brightness(101%) contrast(107%);
   border-radius: 10px;
 }
 
 .command-microphone-icon {
-  filter: brightness(0) saturate(100%) invert(42%) sepia(96%) saturate(1067%) hue-rotate(77deg) brightness(99%)
-    contrast(102%);
+  filter: brightness(0) saturate(100%) invert(42%) sepia(96%) saturate(1067%) hue-rotate(77deg) brightness(99%) contrast(102%);
 }
 
 .unsupported-microphone {
-  display: none;
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute;
 }

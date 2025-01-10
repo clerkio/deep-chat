@@ -16,7 +16,7 @@
 }
 
 .loading-submit-button {
-  filter: var(--chat-submit-icon-filter)!important;
+  filter: var(--chat-submit-icon-filter) !important;
   position: relative;
   left: calc(0em - 9995px);
   width: 0.22em;

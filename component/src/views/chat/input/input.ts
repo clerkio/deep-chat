@@ -1,29 +1,29 @@
-import { AudioFileAttachmentType } from './fileAttachments/fileAttachmentTypes/audioFileAttachmentType';
-import { InputButtonStyleAdjustments } from './buttons/styleAdjustments/inputButtonStyleAdjustments';
-import { FileAttachmentsType } from './fileAttachments/fileAttachmentTypes/fileAttachmentsType';
-import { FileServiceIO, ServiceFileTypes, ServiceIO } from '../../../services/serviceIO';
-import { InputButtonPositions } from './buttons/styleAdjustments/inputButtonPositions';
-import { FILE_TYPE_BUTTON_ICONS } from '../../../utils/files/fileTypeButtonIcons';
-import { SpeechToText } from './buttons/microphone/speechToText/speechToText';
-import { UploadFileButton } from './buttons/uploadFile/uploadFileButton';
-import { DragAndDrop } from './fileAttachments/dragAndDrop/dragAndDrop';
-import { ButtonContainers } from './buttonContainers/buttonContainers';
-import { FileAttachments } from './fileAttachments/fileAttachments';
-import { ElementUtils } from '../../../utils/element/elementUtils';
-import { ValidationHandler } from './validation/validationHandler';
-import { RecordAudio } from './buttons/microphone/recordAudio';
-import { SubmitButton } from './buttons/submit/submitButton';
-import { CameraButton } from './buttons/camera/cameraButton';
-import { DropupStyles } from '../../../types/dropupStyles';
-import { BUTTON_TYPE } from '../../../types/buttonTypes';
-import { InputButton } from './buttons/inputButton';
-import { CustomStyle } from '../../../types/styles';
-import { TextInputEl } from './textInput/textInput';
-import { Messages } from '../messages/messages';
-import { DeepChat } from '../../../deepChat';
+import {AudioFileAttachmentType} from './fileAttachments/fileAttachmentTypes/audioFileAttachmentType';
+import {InputButtonStyleAdjustments} from './buttons/styleAdjustments/inputButtonStyleAdjustments';
+import {FileAttachmentsType} from './fileAttachments/fileAttachmentTypes/fileAttachmentsType';
+import {FileServiceIO, ServiceFileTypes, ServiceIO} from '../../../services/serviceIO';
+import {InputButtonPositions} from './buttons/styleAdjustments/inputButtonPositions';
+import {FILE_TYPE_BUTTON_ICONS} from '../../../utils/files/fileTypeButtonIcons';
+import {SpeechToText} from './buttons/microphone/speechToText/speechToText';
+import {UploadFileButton} from './buttons/uploadFile/uploadFileButton';
+import {DragAndDrop} from './fileAttachments/dragAndDrop/dragAndDrop';
+import {ButtonContainers} from './buttonContainers/buttonContainers';
+import {FileAttachments} from './fileAttachments/fileAttachments';
+import {ElementUtils} from '../../../utils/element/elementUtils';
+import {ValidationHandler} from './validation/validationHandler';
+import {RecordAudio} from './buttons/microphone/recordAudio';
+import {SubmitButton} from './buttons/submit/submitButton';
+import {CameraButton} from './buttons/camera/cameraButton';
+import {DropupStyles} from '../../../types/dropupStyles';
+import {BUTTON_TYPE} from '../../../types/buttonTypes';
+import {InputButton} from './buttons/inputButton';
+import {CustomStyle} from '../../../types/styles';
+import {TextInputEl} from './textInput/textInput';
+import {Messages} from '../messages/messages';
+import {DeepChat} from '../../../deepChat';
 
 export type Buttons = {
-  [key in BUTTON_TYPE]?: { button: InputButton; fileType?: FileAttachmentsType };
+  [key in BUTTON_TYPE]?: {button: InputButton; fileType?: FileAttachmentsType};
 };
 
 export class Input {
@@ -35,15 +35,13 @@ export class Input {
     const fileAts = this.createFileUploadComponents(deepChat, serviceIO, containerElement, buttons);
     const textInput = new TextInputEl(deepChat, serviceIO, fileAts);
     if (deepChat.speechToText && !buttons.microphone) {
-      buttons.clear = { button: new SpeechToText(deepChat, textInput, messages.addNewErrorMessage.bind(messages)) };
+      buttons.clear = {button: new SpeechToText(deepChat, textInput, messages.addNewErrorMessage.bind(messages))};
     }
     const submitButton = new SubmitButton(deepChat, textInput, messages, serviceIO, fileAts, buttons);
     textInput.submit = submitButton.submitFromInput.bind(submitButton);
     ValidationHandler.attach(deepChat, serviceIO, textInput, fileAts, submitButton);
     deepChat.submitUserMessage = submitButton.programmaticSubmit.bind(submitButton);
-    buttons.submit = { button: submitButton };
-    const clearButton = new InputButton(document.createElement('clear-button'), 'inside-left', undefined, '');
-    buttons.microphone = { button: clearButton };
+    buttons.submit = {button: submitButton};
     Input.addElements(this.elementRef, textInput, buttons, containerElement, fileAts, deepChat.dropupStyles);
   }
 

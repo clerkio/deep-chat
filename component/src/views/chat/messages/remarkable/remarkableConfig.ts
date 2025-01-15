@@ -1,4 +1,4 @@
-import { Remarkable } from 'remarkable';
+import {Remarkable} from 'remarkable';
 import hljs from 'highlight.js';
 import remarkableExternalLink from 'remarkable-external-link';
 
@@ -41,11 +41,10 @@ export class RemarkableConfig {
         linkTarget: '',
       });
       remark.use(remarkableExternalLink, {
-        hosts: [window.location.origin]
-      })
-      return remark
+        hosts: [window.location.origin],
+      });
+      return remark;
     }
-
   }
 
   public static createNew() {

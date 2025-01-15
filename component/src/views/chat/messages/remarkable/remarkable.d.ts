@@ -4,8 +4,8 @@ declare module 'remarkable' {
   export class Remarkable {
     constructor(options?: RemarkableOptions);
     public render: (markdown: string) => string;
-    public inline: { validateLink: () => boolean };
-    public use: any
+    public inline: {validateLink: () => boolean};
+    public use: any;
   }
 
   export interface RemarkableOptions {

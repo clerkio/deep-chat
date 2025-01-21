@@ -155,7 +155,7 @@ export class Messages extends MessagesBase {
     const message = Messages.createMessageContent(data);
     const overwrite: Overwrite = {status: data.overwrite}; // if did not overwrite, create a new message
     if (!data.ignoreText && message.text !== undefined && data.text !== null) {
-      this.addNewTextMessage(message.text, message.role, overwrite, isTop);
+      this.addNewTextMessage(message.text, message.role, overwrite, isTop, message.feedback);
       if (!isHistory && this.textToSpeech && message.role !== MessageUtils.USER_ROLE) {
         TextToSpeech.speak(message.text, this.textToSpeech);
       }
@@ -187,7 +187,7 @@ export class Messages extends MessagesBase {
     const lastMessage = this.messageElementRefs[this.messageElementRefs.length - 1];
     const lastMessageBubble = lastMessage?.bubbleElement;
     if ((lastMessageBubble?.classList.contains(MessageStream.MESSAGE_CLASS) && lastMessageBubble.textContent === '') ||
-        Messages.isTemporaryElement(lastMessage)) {
+      Messages.isTemporaryElement(lastMessage)) {
       this.removeLastMessage();
     }
   }
@@ -199,7 +199,7 @@ export class Messages extends MessagesBase {
       || this._errorMessageOverrides?.default || 'Error, please try again.';
     const messageElements = this.createMessageElementsOnOrientation(text, '', isTop);
     MessageUtils.hideRoleElements(this.messageElementRefs, !!this._avatars, !!this._names);
-    const {bubbleElement, outerContainer} = messageElements;
+    const { bubbleElement, outerContainer } = messageElements;
     bubbleElement.classList.add('error-message-text');
     this.renderText(bubbleElement, text);
     const fontElementStyles = MessageStyleUtils.extractParticularSharedStyles(['fontSize', 'fontFamily'],

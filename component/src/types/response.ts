@@ -8,4 +8,5 @@ export interface Response {
   role?: string;
   overwrite?: boolean;
   _sessionId?: string;
+  feedback?: number;
 }

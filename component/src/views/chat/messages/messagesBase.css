@@ -3,8 +3,21 @@
   scrollbar-color: #f6f6f6 transparent;
 }
 
+.outer-message-container:has(.text-message):last-of-type chat-feedback {
+  opacity: 100%;
+}
+
+.outer-message-container:has(.text-message):hover chat-feedback {
+  opacity: 100%;
+}
+
 .outer-message-container:last-child {
   margin-bottom: 5px;
+}
+
+.assistant-message img,
+.ai-message img {
+  max-width: calc(100%);
 }
 
 .inner-message-container {

@@ -41,7 +41,14 @@ export interface MessageStyles {
   loading?: LoadingMessageStyles;
 }
 
-export type MessageContent = {role?: string; text?: string; files?: MessageFile[]; html?: string; _sessionId?: string};
+export type MessageContent = {
+  role?: string;
+  text?: string;
+  files?: MessageFile[];
+  html?: string;
+  _sessionId?: string;
+  feedback?: number;
+};
 
 export type OnMessage = (body: {message: MessageContent; isHistory: boolean}) => void;
 

@@ -52,15 +52,15 @@ export class MessagesBase {
     return container;
   }
 
-  public addNewTextMessage(text: string, role: string, overwrite?: Overwrite, isTop = false) {
+  public addNewTextMessage(text: string, role: string, overwrite?: Overwrite, isTop = false, feedback?: number) {
     if (overwrite?.status) {
       const overwrittenElements = this.overwriteText(role, text, this.messageElementRefs);
       if (overwrittenElements) return overwrittenElements;
       overwrite.status = false;
     }
     const messageElements = isTop
-      ? this.createAndPrependNewMessageElement(text, role, isTop)
-      : this.createAndAppendNewMessageElement(text, role);
+      ? this.createAndPrependNewMessageElement(text, role, isTop, feedback)
+      : this.createAndAppendNewMessageElement(text, role, feedback);
     messageElements.bubbleElement.classList.add('text-message');
     this.applyCustomStyles(messageElements, role, false);
     MessageUtils.fillEmptyMessageElement(messageElements.bubbleElement, text);
@@ -79,15 +79,15 @@ export class MessagesBase {
     return elements;
   }
 
-  protected createAndAppendNewMessageElement(text: string, role: string) {
-    const messageElements = this.createNewMessageElement(text, role);
+  protected createAndAppendNewMessageElement(text: string, role: string, feedback?: number) {
+    const messageElements = this.createNewMessageElement(text, role, false, feedback);
     this.elementRef.appendChild(messageElements.outerContainer);
     setTimeout(() => ElementUtils.scrollToBottom(this.elementRef)); // timeout neeed when bubble font is large
     return messageElements;
   }
 
-  private createAndPrependNewMessageElement(text: string, role: string, isTop: boolean) {
-    const messageElements = this.createNewMessageElement(text, role, isTop);
+  private createAndPrependNewMessageElement(text: string, role: string, isTop: boolean, feedback?: number) {
+    const messageElements = this.createNewMessageElement(text, role, isTop, feedback);
     if (isTop && (this.elementRef.firstChild as HTMLElement)?.classList.contains('deep-chat-intro')) {
       (this.elementRef.firstChild as HTMLElement).insertAdjacentElement('afterend', messageElements.outerContainer);
       // swapping to place intro refs into correct position
@@ -100,11 +100,13 @@ export class MessagesBase {
     return messageElements;
   }
 
-  public createMessageElementsOnOrientation(text: string, role: string, isTop: boolean) {
-    return isTop ? this.createAndPrependNewMessageElement(text, role, true) : this.createNewMessageElement(text, role);
+  public createMessageElementsOnOrientation(text: string, role: string, isTop: boolean, feedback?: number) {
+    return isTop
+      ? this.createAndPrependNewMessageElement(text, role, true, feedback)
+      : this.createNewMessageElement(text, role, false, feedback);
   }
 
-  public createNewMessageElement(text: string, role: string, isTop = false) {
+  public createNewMessageElement(text: string, role: string, isTop = false, feedback?: number) {
     this._introPanel?.hide();
     const lastMessageElements = this.messageElementRefs[this.messageElementRefs.length - 1];
     LoadingHistory.changeFullViewToSmall(this, lastMessageElements);
@@ -113,7 +115,7 @@ export class MessagesBase {
       lastMessageElements.outerContainer.remove();
       this.messageElementRefs.pop();
     }
-    return this.createMessageElements(text, role, isTop);
+    return this.createMessageElements(text, role, isTop, feedback);
   }
 
   // this can be tested by having an ai message, then a temp ai message with html that submits new user message:
@@ -124,7 +126,7 @@ export class MessagesBase {
       // if prev message before temp has a different role to the new one, make sure its avatar is revealed
       const prevMessageElements = this.messageElementRefs[this.messageElementRefs.length - 2];
       if (prevMessageElements && this.messages[this.messages.length - 1]
-          && !tempElements.bubbleElement.classList.contains(MessageUtils.getRoleClass(newRole))) {
+        && !tempElements.bubbleElement.classList.contains(MessageUtils.getRoleClass(newRole))) {
         MessageUtils.revealRoleElements(prevMessageElements.innerContainer, this._avatars, this._names);
       }
     }
@@ -134,12 +136,17 @@ export class MessagesBase {
     return MessagesBase.isLoadingMessage(elements) || HTMLDeepChatElements.isElementTemporary(elements);
   }
 
-  public createMessageElements(text: string, role: string, isTop = false) {
+  public createMessageElements(text: string, role: string, isTop = false, feedbackValue?: number) {
     const messageElements = MessagesBase.createBaseElements();
     const {outerContainer, innerContainer, bubbleElement} = messageElements;
     outerContainer.appendChild(innerContainer);
     this.addInnerContainerElements(bubbleElement, text, role);
     MessageUtils.updateRefArr(this.messageElementRefs, messageElements, isTop);
+    const feedback = document.createElement('chat-feedback');
+    feedback.setAttribute('role', role);
+    feedback.setAttribute('index', (this.messageElementRefs.length - 1).toString());
+    if (feedbackValue) feedback.setAttribute('feedback', feedbackValue.toString());
+    outerContainer.appendChild(feedback);
     return messageElements;
   }
 
@@ -164,12 +171,12 @@ export class MessagesBase {
       role === MessageUtils.USER_ROLE ? 'user-message-text' : 'ai-message-text');
     this.renderText(bubbleElement, text);
     MessageUtils.addRoleElements(bubbleElement, role, this._avatars, this._names);
-    return {bubbleElement};
+    return { bubbleElement };
   }
 
   // prettier-ignore
   public applyCustomStyles(elements: MessageElements | undefined, role: string, media: boolean,
-      otherStyles?: MessageRoleStyles | MessageElementsStyles) {
+    otherStyles?: MessageRoleStyles | MessageElementsStyles) {
     if (elements && this.messageStyles) {
       MessageStyleUtils.applyCustomStyles(this.messageStyles, elements, role, media, otherStyles);
     }
@@ -177,13 +184,14 @@ export class MessagesBase {
 
   public static createMessageContent(content: Response): MessageContentI {
     // it is important to create a new object as its properties get manipulated later on e.g. delete message.html
-    const {text, files, html, _sessionId, role} = content;
+    const {text, files, html, _sessionId, role, feedback} = content;
     const messageContent: MessageContentI = {role: role || MessageUtils.AI_ROLE};
     if (text) messageContent.text = text;
     if (files) messageContent.files = files;
     if (html) messageContent.html = html;
     if (!text && !files && !html) messageContent.text = '';
     if (_sessionId) messageContent._sessionId = _sessionId;
+    if (feedback) messageContent.feedback = feedback;
     return messageContent;
   }
 

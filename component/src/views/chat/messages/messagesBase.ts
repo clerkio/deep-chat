@@ -1,22 +1,22 @@
-import {MessageElementsStyles, MessageRoleStyles, MessageStyles, UserContent} from '../../../types/messages';
-import {MessageContentI, Overwrite} from '../../../types/messagesInternal';
-import {ProcessedTextToSpeechConfig} from './textToSpeech/textToSpeech';
-import {ElementUtils} from '../../../utils/element/elementUtils';
-import {HTMLDeepChatElements} from './html/htmlDeepChatElements';
-import {LoadingStyle} from '../../../utils/loading/loadingStyle';
-import {RemarkableConfig} from './remarkable/remarkableConfig';
-import {FireEvents} from '../../../utils/events/fireEvents';
-import {LoadingHistory} from './history/loadingHistory';
-import {HTMLClassUtilities} from '../../../types/html';
-import {MessageStyleUtils} from './messageStyleUtils';
-import {IntroPanel} from '../introPanel/introPanel';
-import {Response} from '../../../types/response';
-import {Avatars} from '../../../types/avatars';
-import {MessageUtils} from './messageUtils';
-import {DeepChat} from '../../../deepChat';
-import {Names} from '../../../types/names';
-import {MessageElements} from './messages';
-import {Remarkable} from 'remarkable';
+import { MessageElementsStyles, MessageRoleStyles, MessageStyles, UserContent } from '../../../types/messages';
+import { MessageContentI, Overwrite } from '../../../types/messagesInternal';
+import { ProcessedTextToSpeechConfig } from './textToSpeech/textToSpeech';
+import { ElementUtils } from '../../../utils/element/elementUtils';
+import { HTMLDeepChatElements } from './html/htmlDeepChatElements';
+import { LoadingStyle } from '../../../utils/loading/loadingStyle';
+import { RemarkableConfig } from './remarkable/remarkableConfig';
+import { FireEvents } from '../../../utils/events/fireEvents';
+import { LoadingHistory } from './history/loadingHistory';
+import { HTMLClassUtilities } from '../../../types/html';
+import { MessageStyleUtils } from './messageStyleUtils';
+import { IntroPanel } from '../introPanel/introPanel';
+import { Response } from '../../../types/response';
+import { Avatars } from '../../../types/avatars';
+import { MessageUtils } from './messageUtils';
+import { DeepChat } from '../../../deepChat';
+import { Names } from '../../../types/names';
+import { MessageElements } from './messages';
+import { Remarkable } from 'remarkable';
 
 export class MessagesBase {
   messageElementRefs: MessageElements[] = [];
@@ -138,13 +138,13 @@ export class MessagesBase {
 
   public createMessageElements(text: string, role: string, isTop = false, feedbackValue?: number) {
     const messageElements = MessagesBase.createBaseElements();
-    const {outerContainer, innerContainer, bubbleElement} = messageElements;
+    const { outerContainer, innerContainer, bubbleElement } = messageElements;
     outerContainer.appendChild(innerContainer);
     this.addInnerContainerElements(bubbleElement, text, role);
     MessageUtils.updateRefArr(this.messageElementRefs, messageElements, isTop);
     const feedback = document.createElement('chat-feedback');
     feedback.setAttribute('role', role);
-    feedback.setAttribute('index', (this.messageElementRefs.length - 1).toString());
+    feedback.setAttribute('index', (this.messages.length - 1).toString());
     if (feedbackValue) feedback.setAttribute('feedback', feedbackValue.toString());
     outerContainer.appendChild(feedback);
     return messageElements;
@@ -159,7 +159,7 @@ export class MessagesBase {
     const bubbleElement = document.createElement('div');
     bubbleElement.classList.add('message-bubble');
     innerContainer.appendChild(bubbleElement);
-    return {outerContainer, innerContainer, bubbleElement};
+    return { outerContainer, innerContainer, bubbleElement };
   }
 
   // prettier-ignore
@@ -184,8 +184,8 @@ export class MessagesBase {
 
   public static createMessageContent(content: Response): MessageContentI {
     // it is important to create a new object as its properties get manipulated later on e.g. delete message.html
-    const {text, files, html, _sessionId, role, feedback} = content;
-    const messageContent: MessageContentI = {role: role || MessageUtils.AI_ROLE};
+    const { text, files, html, _sessionId, role, feedback } = content;
+    const messageContent: MessageContentI = { role: role || MessageUtils.AI_ROLE };
     if (text) messageContent.text = text;
     if (files) messageContent.files = files;
     if (html) messageContent.html = html;

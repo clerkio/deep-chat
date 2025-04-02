@@ -142,11 +142,17 @@ export class MessagesBase {
     outerContainer.appendChild(innerContainer);
     this.addInnerContainerElements(bubbleElement, text, role);
     MessageUtils.updateRefArr(this.messageElementRefs, messageElements, isTop);
-    const feedback = document.createElement('chat-feedback');
-    feedback.setAttribute('role', role);
-    feedback.setAttribute('index', (this.messages.length - 1).toString());
-    if (feedbackValue) feedback.setAttribute('feedback', feedbackValue.toString());
-    outerContainer.appendChild(feedback);
+
+    // clerkChat.js feedback
+    // We don't want to add chat-feedback if there are 0 messages, as that means only the welcome message is there.
+    if (this.messages.length > 0) {
+      const feedback = document.createElement('chat-feedback');
+      feedback.setAttribute('role', role);
+      feedback.setAttribute('index', (this.messages.length).toString());
+      if (feedbackValue) feedback.setAttribute('feedback', feedbackValue.toString());
+      outerContainer.appendChild(feedback);
+    }
+
     return messageElements;
   }
 

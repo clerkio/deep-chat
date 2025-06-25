@@ -88,6 +88,14 @@
   margin-bottom: 0px;
 }
 
+.message-bubble ol {
+    padding-inline-start: 32px;
+}
+
+.message-bubble li::marker {
+    color: #777;
+}
+
 /* this is for codeblocks */
 pre {
   overflow: auto;

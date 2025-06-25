@@ -15,8 +15,8 @@
 .inner-button-container:has(#microphone-button) {
   position: absolute;
   gap: 5px;
-  right: 6px;
-  bottom: 0.85em;
+  right: 3px;
+  bottom: 1px;
   flex-direction: row-reverse;
 }
 

@@ -89,7 +89,7 @@
 }
 
 .message-bubble ol {
-  padding-inline-start: 32px;
+  padding-inline-start: 24px;
 }
 
 .message-bubble li::marker {

@@ -89,11 +89,11 @@
 }
 
 .message-bubble ol {
-    padding-inline-start: 32px;
+  padding-inline-start: 32px;
 }
 
 .message-bubble li::marker {
-    color: #777;
+  color: #777;
 }
 
 /* this is for codeblocks */

@@ -123,6 +123,11 @@ export class TextInputEl {
       event.preventDefault();
       this.submit?.();
     }
+    // Prevent spacebar from triggering smooth scroll libraries on parent pages
+    // This stops propagation so external smooth scroll handlers don't intercept typing
+    if (event.key === ' ') {
+      event.stopPropagation();
+    }
   }
 
   private onInput() {

@@ -125,7 +125,13 @@ export class TextInputEl {
     }
     // Prevent spacebar and arrow keys from triggering smooth scroll libraries on parent pages
     // This stops propagation so external smooth scroll handlers don't intercept input navigation
-    const scrollKeys = [' ', KEYBOARD_KEY.ARROW_LEFT, KEYBOARD_KEY.ARROW_RIGHT, KEYBOARD_KEY.ARROW_UP, KEYBOARD_KEY.ARROW_DOWN];
+    const scrollKeys = [
+      ' ',
+      KEYBOARD_KEY.ARROW_LEFT,
+      KEYBOARD_KEY.ARROW_RIGHT,
+      KEYBOARD_KEY.ARROW_UP,
+      KEYBOARD_KEY.ARROW_DOWN,
+    ];
     if (scrollKeys.includes(event.key)) {
       event.stopPropagation();
     }

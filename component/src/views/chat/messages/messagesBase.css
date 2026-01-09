@@ -25,6 +25,26 @@
   line-height: 1.26em;
 }
 
+.message-bubble h1,
+.message-bubble h2,
+.message-bubble h3,
+.message-bubble h4,
+.message-bubble h5,
+.message-bubble h6 {
+  line-height: 1.3em;
+  margin-top: 0.8em;
+  margin-bottom: 0.4em;
+}
+
+.message-bubble h1:first-child,
+.message-bubble h2:first-child,
+.message-bubble h3:first-child,
+.message-bubble h4:first-child,
+.message-bubble h5:first-child,
+.message-bubble h6:first-child {
+  margin-top: 0;
+}
+
 .user-message-text {
   color: white;
   background-color: #0084ff;

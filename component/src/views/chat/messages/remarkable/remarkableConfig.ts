@@ -1,6 +1,7 @@
 import {Remarkable} from 'remarkable';
 import hljs from 'highlight.js';
 import remarkableExternalLink from 'remarkable-external-link';
+import {linkify} from 'remarkable/linkify';
 
 declare global {
   interface Window {
@@ -12,7 +13,7 @@ export class RemarkableConfig {
   private static instantiate() {
     const hljsModule = window.hljs;
     if (hljsModule) {
-      return new Remarkable({
+      const remark = new Remarkable({
         highlight: function (str, lang) {
           if (lang && hljsModule.getLanguage(lang)) {
             try {
@@ -34,14 +35,15 @@ export class RemarkableConfig {
         langPrefix: 'language-', // CSS language prefix for fenced blocks
         linkTarget: '_blank', // set target to open in a new tab
         typographer: true, // Enable smartypants and other sweet transforms
-        linkify: true, // Auto-convert URLs to clickable links
       });
+      remark.use(linkify); // Auto-convert URLs to clickable links
+      return remark;
     } else {
       const remark = new Remarkable({
         breaks: true,
         linkTarget: '_blank',
-        linkify: true, // Auto-convert URLs to clickable links
       });
+      remark.use(linkify); // Auto-convert URLs to clickable links
       remark.use(remarkableExternalLink, {
         hosts: [window.location.origin],
       });

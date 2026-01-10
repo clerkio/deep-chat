@@ -20,3 +20,7 @@ declare module 'remarkable' {
     highlight?: (str: string, lang: string) => void;
   }
 }
+
+declare module 'remarkable/linkify' {
+  export function linkify(md: any): void;
+}

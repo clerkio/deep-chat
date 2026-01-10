@@ -34,11 +34,13 @@ export class RemarkableConfig {
         langPrefix: 'language-', // CSS language prefix for fenced blocks
         linkTarget: '_blank', // set target to open in a new tab
         typographer: true, // Enable smartypants and other sweet transforms
+        linkify: true, // Auto-convert URLs to clickable links
       });
     } else {
       const remark = new Remarkable({
         breaks: true,
-        linkTarget: '',
+        linkTarget: '_blank',
+        linkify: true, // Auto-convert URLs to clickable links
       });
       remark.use(remarkableExternalLink, {
         hosts: [window.location.origin],

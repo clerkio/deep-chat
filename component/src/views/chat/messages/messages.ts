@@ -317,6 +317,11 @@ export class Messages extends MessagesBase {
 
   // WORK - update all message classes to use deep-chat prefix
   private clearMessages(serviceIO: ServiceIO, isReset?: boolean) {
+    // Abort any ongoing stream before clearing messages
+    if (serviceIO.streamHandlers?.abortStream) {
+      serviceIO.streamHandlers.abortStream.abort();
+    }
+
     const retainedElements: MessageElements[] = [];
     const retainedTextElemenets: [MessageElements, string][] = [];
     this.messageElementRefs.forEach((message) => {

@@ -88,8 +88,27 @@
   margin-bottom: 0px;
 }
 
-.message-bubble ol {
+.message-bubble ol,
+.message-bubble ul {
   padding-inline-start: 24px;
+  margin: 0.5em 0;
+}
+
+/* Nested lists - proper indentation */
+.message-bubble ol ol,
+.message-bubble ol ul,
+.message-bubble ul ol,
+.message-bubble ul ul {
+  margin: 0.25em 0;
+  padding-inline-start: 20px;
+}
+
+.message-bubble li {
+  margin-bottom: 0.35em;
+}
+
+.message-bubble li:last-child {
+  margin-bottom: 0;
 }
 
 .message-bubble li::marker {
